@@ -24,17 +24,17 @@ public class Matrix {
         return new Size(data[0].length, data.length);
     }
 
-    private int numberRows(Matrix matrix) {
-        return matrix.getSize().getHeight();
+    public int numberRows() {
+        return this.getSize().getHeight();
     }
 
-    private int numberColumns(Matrix matrix) {
-        return matrix.getSize().getWidth();
+    public int numberColumns() {
+        return this.getSize().getWidth();
     }
 
     public double getElement(int row, int column) {
         checkPositiveValue(row, column);
-        if (row < numberRows(this) && column < numberColumns(this)) {
+        if (row < numberRows() && column < numberColumns()) {
             return this.data[row][column];
         } else {
             throw new IllegalArgumentException();
@@ -43,7 +43,7 @@ public class Matrix {
 
     public void setElement(double element, int row, int column) {
         checkPositiveValue(row, column);
-        if (row < numberRows(this) && column < numberColumns(this)) {
+        if (row < numberRows() && column < numberColumns()) {
             this.data[row][column] = element;
         } else {
             throw new IllegalArgumentException();
@@ -53,8 +53,8 @@ public class Matrix {
     public Matrix add(Matrix secondMatrix) {
         compareDimensionMatrixes(secondMatrix);
         Matrix resultMatrix = new Matrix(getSize());
-        for (int indexRow = 0; indexRow < numberRows(this); indexRow++) {
-            for (int indexColumn = 0; indexColumn < numberColumns(this); indexColumn++) {
+        for (int indexRow = 0; indexRow < numberRows(); indexRow++) {
+            for (int indexColumn = 0; indexColumn < numberColumns(); indexColumn++) {
                 double firstElement = getElement(indexRow, indexColumn);
                 double secondElement = secondMatrix.getElement(indexRow, indexColumn);
                 resultMatrix.setElement(firstElement + secondElement, indexRow, indexColumn);
@@ -70,16 +70,16 @@ public class Matrix {
     }
 
     public Matrix multiplication(Matrix rightMatrix) {
-        int widthLeftMatrix = numberColumns(this);
-        int heightRightMatrix = numberRows(rightMatrix);
+        int widthLeftMatrix = numberColumns();
+        int heightRightMatrix = rightMatrix.numberRows();
         if (widthLeftMatrix != heightRightMatrix) {
             throw new IllegalArgumentException("Illegal matrix dimensions.");
         }
         double sum = 0;
-        Size sizeResult = new Size(numberColumns(rightMatrix), numberRows(this));
+        Size sizeResult = new Size(rightMatrix.numberColumns(), numberRows());
         Matrix resultMatrix = new Matrix(sizeResult);
-        for (int indexRow = 0; indexRow < numberRows(this); indexRow++) {
-            for (int indexColumn = 0; indexColumn < numberColumns(rightMatrix); indexColumn++) {
+        for (int indexRow = 0; indexRow < numberRows(); indexRow++) {
+            for (int indexColumn = 0; indexColumn < rightMatrix.numberColumns(); indexColumn++) {
                 for (int indexBothMatrixes = 0; indexBothMatrixes < widthLeftMatrix; indexBothMatrixes++) {
                     sum += this.getElement(indexRow, indexBothMatrixes) * rightMatrix.getElement(indexBothMatrixes, indexColumn);
                 }
@@ -91,14 +91,14 @@ public class Matrix {
     }
 
     public double calculateDeterminant() {
-        if (numberRows(this) != numberColumns(this)) {
+        if (numberRows() != numberColumns()) {
             throw new IllegalArgumentException("Illegal matrix dimensions.");
         }
         double calcResult = 0.0;
-        if (numberRows(this) == 2) {
+        if (numberRows() == 2) {
             calcResult = getElement(0, 0) * getElement(1, 1) - getElement(1, 0) * getElement(0, 1);
         } else {
-            for (int indexColumn = 0; indexColumn < numberColumns(this); indexColumn++) {
+            for (int indexColumn = 0; indexColumn < numberColumns(); indexColumn++) {
                 int koeff = calculateKoeff(indexColumn);
                 Matrix minor = this.selectionMinor(0, indexColumn);
                 calcResult += koeff * getElement(0, indexColumn) * minor.calculateDeterminant();
@@ -116,7 +116,7 @@ public class Matrix {
     }
 
     private Matrix selectionMinor(int rowForDelete, int columnForDelete) {
-        Size sizeMinor = new Size(numberColumns(this) - 1, numberRows(this) - 1);
+        Size sizeMinor = new Size(numberColumns() - 1, numberRows() - 1);
         Matrix minor = new Matrix(sizeMinor);
         int rowIdentifier = 0;
         int columnIdentifier;
