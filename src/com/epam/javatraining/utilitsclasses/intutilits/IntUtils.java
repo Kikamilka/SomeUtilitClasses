@@ -5,9 +5,12 @@ import java.util.Arrays;
 public class IntUtils {
 
     public static int[] changeSizeArray(int[] array, int newSize) {
-        int[] retutnArray = new int[newSize];
-        System.arraycopy(array, 0, retutnArray, 0, Math.min(array.length, newSize));
-        return retutnArray;
+        if (array == null || newSize == 0) {
+            return null;
+        }
+        int[] newSizeArray = new int[newSize];
+        System.arraycopy(array, 0, newSizeArray, 0, Math.min(array.length, newSize));
+        return newSizeArray;
     }
 
     public static boolean equalArrays(int[] firstArr, int[] secondArr) {
@@ -25,6 +28,12 @@ public class IntUtils {
     }
 
     public static int[] mixArray(int[] array) {
+        if (array == null) {
+            return null;
+        }
+        if (array.length == 0) {
+            return new int[0];
+        }
         int[] resultArray = new int[array.length];
         int counter = 0;
         System.arraycopy(array, 0, resultArray, 0, array.length);
@@ -40,11 +49,15 @@ public class IntUtils {
     }
 
     public static void printArray(int[] array) {
-        System.out.println("Our array: ");
-        for (int indexElement = 0; indexElement < array.length - 1; indexElement++) {
-            System.out.print(array[indexElement] + "; ");
+        if (array == null || array.length == 0) {
+            System.out.println("Our array is non-existent!");
+        } else {
+            System.out.println("Our array: ");
+            for (int indexElement = 0; indexElement < array.length - 1; indexElement++) {
+                System.out.print(array[indexElement] + "; ");
+            }
+            System.out.print(array[array.length - 1] + ".\n");
         }
-        System.out.print(array[array.length - 1] + ".\n");
     }
 
 }

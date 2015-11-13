@@ -12,6 +12,8 @@ public class UtilitsClasses {
         int [] newArray2 = IntUtils.changeSizeArray(myArray, 25);
         IntUtils.printArray(newArray2);
         System.out.println(IntUtils.equalArrays(myArray, myArray2));
+        int[] result = IntUtils.changeSizeArray(new int[]{1, 2}, 0);
+        IntUtils.printArray(result);
     }
     
 }
