@@ -1,4 +1,4 @@
-package epamtraining.utilitsclasses.intutilits;
+package com.epam.javatraining.utilitsclasses.intutilits;
 
 import java.util.Arrays;
 
@@ -39,12 +39,12 @@ public class IntUtils {
         return resultArray;
     }
 
-    static void printArray(int[] array) {
-        System.out.println("Our array: " + '\n');
+    public static void printArray(int[] array) {
+        System.out.println("Our array: ");
         for (int indexElement = 0; indexElement < array.length - 1; indexElement++) {
-            System.out.println(array[indexElement] + "; ");
+            System.out.print(array[indexElement] + "; ");
         }
-        System.out.println(array[array.length - 1] + ".\n");
+        System.out.print(array[array.length - 1] + ".\n");
     }
 
 }
