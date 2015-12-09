@@ -53,11 +53,11 @@ public class Matrix {
     public Matrix add(Matrix secondMatrix) {
         compareDimensionMatrixes(secondMatrix);
         Matrix resultMatrix = new Matrix(getSize());
-        for (int indexRow = 0; indexRow < numberRows(); indexRow++) {
-            for (int indexColumn = 0; indexColumn < numberColumns(); indexColumn++) {
-                double firstElement = getElement(indexRow, indexColumn);
-                double secondElement = secondMatrix.getElement(indexRow, indexColumn);
-                resultMatrix.setElement(firstElement + secondElement, indexRow, indexColumn);
+        for (int row = 0; row < numberRows(); row++) {
+            for (int column = 0; column < numberColumns(); column++) {
+                double firstElement = getElement(row, column);
+                double secondElement = secondMatrix.getElement(row, column);
+                resultMatrix.setElement(firstElement + secondElement, row, column);
             }
         }
         return resultMatrix;
@@ -99,7 +99,7 @@ public class Matrix {
             calcResult = getElement(0, 0) * getElement(1, 1) - getElement(1, 0) * getElement(0, 1);
         } else {
             for (int indexColumn = 0; indexColumn < numberColumns(); indexColumn++) {
-                int koeff = calculateKoeff(indexColumn);
+                int koeff = calculateCoefficient(indexColumn);
                 Matrix minor = this.selectionMinor(0, indexColumn);
                 calcResult += koeff * getElement(0, indexColumn) * minor.calculateDeterminant();
             }
@@ -107,7 +107,7 @@ public class Matrix {
         return calcResult;
     }
 
-    private int calculateKoeff(int indexColumn) {
+    private int calculateCoefficient(int indexColumn) {
         if (indexColumn % 2 == 1) {
             return -1;
         } else {
@@ -144,4 +144,17 @@ public class Matrix {
             throw new IllegalArgumentException();
         }
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Matrix cloneMatrix;
+        Size newSize = this.getSize();        
+        cloneMatrix = new Matrix(newSize);
+        for (int row = 0; row < newSize.getHeight(); row++) {
+            System.arraycopy(this.data[row], 0, cloneMatrix.data[row], 0, newSize.getWidth());
+        }
+        return cloneMatrix;
+    }
+    
+    
 }
